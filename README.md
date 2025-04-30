@@ -51,14 +51,14 @@ Aplicativo mobile em desenvolvimento que permite aos usuários explorar pontos t
 ### ✅ Implementadas
 - Listagem de pontos turísticos
 - Tela de detalhes com:
-  - Imagem e descrição
-  - Mapa com marcador de localização
-  - Lista de avaliações
-  - Envio de nova avaliação com nota
+- Imagem e descrição
+- Mapa com marcador de localização
+- Lista de avaliações
+- Envio de nova avaliação com nota
 - Integração com Supabase (busca e envio de dados)
+- Autenticação de usuários
 
 ### 🚧 Em Desenvolvimento
-- Autenticação de usuários
 - Cadastro de pontos turísticos
 - Favoritar pontos turísticos
 - Filtro por cidade
