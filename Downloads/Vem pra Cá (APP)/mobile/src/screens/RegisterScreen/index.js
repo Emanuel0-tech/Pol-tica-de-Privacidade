@@ -6,30 +6,32 @@ import Button from "../../components/button";
 import { COLORS, FONTS, SIZES } from '../../constants/index';
 
 
-const HomeScreen = () => {
+const RegisterScreen = () => {
 
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
 
-    const handleLogin = () => {
+    const handleRegisterButton = () => {
+        console.log('senha:', senha);
         console.log('Email:', email);
         console.log('Senha:', senha);
-    };
-
-    const handleLoginButton = () => {
-        console.log('Botão pressionado!');
-    };
-    const handleRegisterButton = () => {
-        console.log('Indo para a pagina de cadastro!');
     };
 
     return (
         <BackgroundWrapper>
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text style={{ fontSize: SIZES.extraLarge, color: COLORS.black }}>Login</Text>
+                    <Text style={{ fontSize: SIZES.extraLarge, color: COLORS.black }}>Cadastro
+                    </Text>
                 </View>
                 <View style={styles.main}>
+                    <Text style={{ fontSize: SIZES.large, color: COLORS.black }}>Nome</Text>
+                    <Input
+                        placeholder="Digite seu nome"
+                        value={name}
+                        onChangeText={setName}
+                    />
                     <Text style={{ fontSize: SIZES.large, color: COLORS.black }}>E-mail</Text>
                     <Input
                         placeholder="Digite seu e-mail"
@@ -43,21 +45,13 @@ const HomeScreen = () => {
                         onChangeText={setSenha}
                         secureTextEntry
                     />
-                    <TouchableOpacity>
-                        <Text style={{ fontSize: SIZES.small, margin: SIZES.margin, color: COLORS.black }}>Esqueceu a senha?</Text>
-                    </TouchableOpacity>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 40 }}>
-                        <Button title="Entrar" onPress={handleLoginButton} />
-                        <Button title="Cadastre - se" onPress={handleRegisterButton} />
-                    </View>
+
                 </View>
             </View>
             <View style={styles.footer}>
-                <Text style={{ fontSize: SIZES.large, margin: SIZES.margin, color: COLORS.black }}>Ou acesse com</Text>
-                <Image
-                    source={require('../../assets/icons/google.png')} // caminho da imagem local
-                    style={{ width: 50, height: 50, borderRadius: 50 }}
-                />
+                <View style={{ justifyContent: 'center' }}>
+                    <Button title="Criar Conta" onPress={handleRegisterButton} />
+                </View>
             </View>
         </BackgroundWrapper>
     );
@@ -73,13 +67,13 @@ const styles = StyleSheet.create({
         paddingTop: '20%',
     },
     main: {
-        paddingTop: '30%',
+        paddingTop: '25%',
     },
     footer: {
-        paddingTop: '25%',
+        paddingTop: '10%',
         justifyContent: 'center',
         alignItems: 'center',
     }
 });
 
-export default HomeScreen;
+export default RegisterScreen;

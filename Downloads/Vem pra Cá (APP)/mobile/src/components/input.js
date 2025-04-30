@@ -1,6 +1,6 @@
 // components/Input.js
 
-import React from 'react';
+import React, {useState} from 'react';
 import { TextInput, View, Text } from 'react-native';
 import { COLORS } from '../constants'; // Importando as cores
 
@@ -10,6 +10,7 @@ const Input = ({ placeholder, value, onChangeText, secureTextEntry }) => {
       <TextInput
         style={{
           height: 50,
+          width: 350,
           borderColor: COLORS.primaryPurple,
           borderWidth: 1,
           borderRadius: 10,
