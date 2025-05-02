@@ -1,6 +1,5 @@
 import { View, Text, Image } from 'react-native';
-import COLORS from '../constants/colors';
-import FONTS from '../constants/fonts';
+import { COLORS, FONTS, SIZES } from '../constants';
 
 const PlaceCard = ({ name, location }) => (
   <View style={{
@@ -17,7 +16,8 @@ const PlaceCard = ({ name, location }) => (
       borderRadius: 8, justifyContent: 'center', alignItems: 'center'
     }}>
       <Image 
-        source={require('../assets/user-add-icon.png')} 
+        source={require('../assets/icons/google.png'
+        )} 
         style={{ width: 40, height: 40 }}
         resizeMode="contain"
       />

@@ -45,12 +45,9 @@ export default function App() {
         <Stack.Screen
           name="Main"
           component={MainScreen}
-          options={({ navigation }) => ({
-            title: 'Pontos Turísticos',
-            headerStyle: { backgroundColor: '#9B59B6'  },
-            headerTintColor: '#FFF'
-          })}
+          options={{ headerShown: false }}
         />
+        
 
       </Stack.Navigator>
     </NavigationContainer>

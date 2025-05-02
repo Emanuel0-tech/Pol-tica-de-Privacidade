@@ -1,21 +1,46 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import BackgroundWrapper from '../../components/BackgroundWrapper';
 import Input from '../../components/input'
 import Button from "../../components/button";
 import { COLORS, FONTS, SIZES } from '../../constants/index';
+import { supabase } from '../../services/supabase';
 
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
 
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [senha, setSenha] = useState('')
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+    const [confirmSenha, setConfirmSenha] = useState('');;
 
-    const handleRegisterButton = () => {
-        console.log('senha:', senha);
-        console.log('Email:', email);
-        console.log('Senha:', senha);
+
+    const handleRegisterButton = async () => {
+        if (!email || !senha || !confirmSenha) {
+            Alert.alert('Erro', 'Preencha todos os campos!');
+            return;
+        }
+
+        if (senha !== confirmSenha){
+            Alert.alert('Erro', 'As senhas não coincidem!');
+            return;
+        }
+
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password:senha,
+        });
+
+        if (error) {
+            Alert.alert('Erro no cadastro', error.message);
+        } else {
+            Alert.alert('Sucesso', 'Cadastro realizado!');
+            setEmail('');
+            setSenha('');
+            setConfirmSenha('');
+            navigation.navigate('Main')
+        }
+
     };
 
     return (
@@ -43,6 +68,13 @@ const RegisterScreen = () => {
                         placeholder="Digite sua senha"
                         value={senha}
                         onChangeText={setSenha}
+                        secureTextEntry
+                    />
+                    <Text style={{ fontSize: SIZES.large, color: COLORS.black }}>Confirmar senha</Text>
+                    <Input
+                        placeholder="Digite sua senha"
+                        value={confirmSenha}
+                        onChangeText={setConfirmSenha}
                         secureTextEntry
                     />
 

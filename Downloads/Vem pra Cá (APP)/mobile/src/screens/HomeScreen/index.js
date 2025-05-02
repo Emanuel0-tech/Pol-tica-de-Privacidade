@@ -1,26 +1,41 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Alert } from 'react-native';
 import BackgroundWrapper from '../../components/BackgroundWrapper';
-import Input from '../../components/input'
+import { supabase } from '../../services/supabase';
+import Input from '../../components/input';
 import Button from "../../components/button";
 import { COLORS, FONTS, SIZES } from '../../constants/index';
 
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
 
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
 
-    const handleLogin = () => {
-        console.log('Email:', email);
-        console.log('Senha:', senha);
-    };
+    const handleLoginButton = async () => {
 
-    const handleLoginButton = () => {
-        console.log('Botão pressionado!');
+        if (!email || !senha) {
+            Alert.alert('Erro', 'Preencha todos os campos!');
+            return;
+        }
+
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password: senha,
+        });
+
+        if (error) {
+            Alert.alert('Erro no login', error.message)
+        } else {
+            console.log('Usuário logado', data.session)
+            setEmail('');
+            setSenha('');
+            navigation.navigate('Main')
+        }
     };
     const handleRegisterButton = () => {
-        console.log('Indo para a pagina de cadastro!');
+        navigation.navigate('Register');
     };
 
     return (
