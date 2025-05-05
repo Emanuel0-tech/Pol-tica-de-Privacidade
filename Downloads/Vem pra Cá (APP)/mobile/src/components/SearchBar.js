@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SIZES } from '../constants';
 
 
-const SearchBar = ({ placeholder }) => (
+const SearchBar = ({ placeholder, value, onChangeText }) => (
   <View style={{
     flexDirection: 'row',
     backgroundColor: COLORS.lightGray,
@@ -16,10 +16,13 @@ const SearchBar = ({ placeholder }) => (
     <Ionicons name="search" size={24} color={COLORS.black} />
     <TextInput 
       placeholder={placeholder}
+      value={value}
+      onChangeText={onChangeText}
       style={{ flex: 1, marginLeft: 8 }}
     />
     <Ionicons name="options" size={24} color={COLORS.black} />
   </View>
 );
+
 
 export default SearchBar;

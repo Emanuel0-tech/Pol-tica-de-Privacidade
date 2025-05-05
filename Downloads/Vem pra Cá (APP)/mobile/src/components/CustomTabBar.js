@@ -9,13 +9,13 @@ const CustomTabBar = ({ navigation }) => {
             padding: 20,
             backgroundColor: '#9B59B6',
         }}>
-            <TouchableOpacity onPressIn={navigation.navigate('Main')}>
+            <TouchableOpacity onPressIn={() => navigation.navigate('Favorite')}>
                 <Text style={{ color: 'white' }}>Favoritos</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPressIn={navigation.navigate('Main')}>
-                <Text tyle={{ color: 'white' }}>Perfil</Text>
+            <TouchableOpacity onPressIn={() => navigation.navigate('User')}>
+                <Text style={{ color: 'white' }}>Perfil</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPressIn={navigation.navigate('Main')}>
+            <TouchableOpacity onPressIn={() => navigation.navigate('Config')}>
                 <Text style={{ color: 'white' }}>Configurações</Text>
             </TouchableOpacity>
         </View>

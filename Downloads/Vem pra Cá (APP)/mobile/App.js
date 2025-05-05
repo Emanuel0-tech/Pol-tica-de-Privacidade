@@ -7,6 +7,10 @@ import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './src/screens/HomeScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import MainScreen from './src/screens/MainScreen';
+import ConfigScreen from './src/screens/ConfigScreen';
+import DetailScreen from './src/screens/DetailsScreen';
+import FavoriteScreen from './src/screens/FavoriteScreen';
+import UserScreen from './src/screens/UserScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +23,6 @@ export default function App() {
           component={HomeScreen}
           options={{ headerShown: false }}
         />
-
         <Stack.Screen
           name="Register"
           component={RegisterScreen}
@@ -47,8 +50,78 @@ export default function App() {
           component={MainScreen}
           options={{ headerShown: false }}
         />
-        
-
+        <Stack.Screen
+          name="Config"
+          component={ConfigScreen}
+          options={({ navigation }) => ({
+            title: 'Configurações',
+            headerStyle: { backgroundColor: '#9B59B6' },
+            headerTintColor: '#FFF',
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => {       
+                    navigation.navigate('Main');
+                }}
+              >
+                <Ionicons name="arrow-back" size={24} color="#FFF" />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="Detail"
+          component={DetailScreen}
+          options={({ navigation }) => ({
+            title: 'Sobre',
+            headerStyle: { backgroundColor: '#9B59B6' },
+            headerTintColor: '#FFF',
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => {
+                    navigation.navigate('Main');
+                }}
+              >
+                <Ionicons name="arrow-back" size={24} color="#FFF" />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="Favorite"
+          component={FavoriteScreen}
+          options={({ navigation }) => ({
+            title: 'Favoritos',
+            headerStyle: { backgroundColor: '#9B59B6' },
+            headerTintColor: '#FFF',
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => {
+                    navigation.navigate('Main');
+                }}
+              >
+                <Ionicons name="arrow-back" size={24} color="#FFF" />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="User"
+          component={UserScreen}
+          options={({ navigation }) => ({
+            title: 'Perfil',
+            headerStyle: { backgroundColor: '#9B59B6' },
+            headerTintColor: '#FFF',
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => {
+                    navigation.navigate('Main');
+                }}
+              >
+                <Ionicons name="arrow-back" size={24} color="#FFF" />
+              </TouchableOpacity>
+            ),
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
