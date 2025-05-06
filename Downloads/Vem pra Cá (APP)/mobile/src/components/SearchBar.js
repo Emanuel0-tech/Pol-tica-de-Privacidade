@@ -1,9 +1,8 @@
-import { View, TextInput } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; 
-import { COLORS, FONTS, SIZES } from '../constants';
+import { View, TextInput, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { COLORS } from '../constants';
 
-
-const SearchBar = ({ placeholder, value, onChangeText }) => (
+const SearchBar = ({ placeholder, value, onChangeText, onOptionsPress }) => (
   <View style={{
     flexDirection: 'row',
     backgroundColor: COLORS.lightGray,
@@ -14,15 +13,16 @@ const SearchBar = ({ placeholder, value, onChangeText }) => (
     paddingHorizontal: 8
   }}>
     <Ionicons name="search" size={24} color={COLORS.black} />
-    <TextInput 
+    <TextInput
       placeholder={placeholder}
       value={value}
       onChangeText={onChangeText}
       style={{ flex: 1, marginLeft: 8 }}
     />
-    <Ionicons name="options" size={24} color={COLORS.black} />
+    <TouchableOpacity onPress={onOptionsPress}>
+      <Ionicons name="options" size={24} color={COLORS.black} />
+    </TouchableOpacity>
   </View>
 );
-
 
 export default SearchBar;
