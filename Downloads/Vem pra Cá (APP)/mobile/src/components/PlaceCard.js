@@ -2,11 +2,12 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { COLORS, FONTS, SIZES } from "../constants/index";
 
-const PlaceCard = ({ nome, descricao, imageUrl, location, onPress }) => {
+const PlaceCard = ({ nome, descricao, categoria, location, imagemUrl, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.card}>
+      {/* Exibindo a imagem passada via prop */}
       <Image
-        source={{ uri: imageUrl }}
+        source={{ uri: imagemUrl }}
         style={styles.image}
         resizeMode="cover"
       />

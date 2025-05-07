@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Alert
 } from "react-native";
 import { COLORS, FONTS } from "../../constants/index";
 import { FontAwesome } from "@expo/vector-icons";
@@ -14,62 +15,99 @@ import { supabase } from "../../services/supabase";
 
 const DetailsScreen = ({ route }) => {
   const { place } = route.params;
+  const [user, setUser] = useState(null);
+  const [commentExisting, setCommentExisting] = useState(null);
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState([]);
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
-    fetchComments();
+    supabase.auth.getUser().then(({ data }) => {
+      if (data?.user) setUser(data.user);
+    });
   }, []);
+
+  useEffect(() => {
+    if (user) fetchComments();
+  }, [user]);
 
   const fetchComments = async () => {
     const { data, error } = await supabase
       .from("avaliacoes")
-      .select(
-        `
-        id,
-        comentario,
-        nota,
-        data_criacao,
-        ponto_turistico_id
-      `
-      )
+      .select(`id, comentario, nota, data_criacao, usuario_id, ponto_turistico_id`)
       .eq("ponto_turistico_id", place.id)
       .order("data_criacao", { ascending: false });
 
     if (error) {
       console.error("Erro ao buscar comentários:", error);
     } else {
+      const myComment = data.find((c) => c.usuario_id === user?.id);
+      setCommentExisting(myComment || null);
       setComments(data);
     }
   };
 
   const handleSendComment = async () => {
-    if (!commentText.trim() || rating === 0) return;
+    if (!commentText.trim() || rating === 0 || !user) return;
 
-    const { error } = await supabase.from("avaliacoes").insert([
-      {
-        ponto_turistico_id: place.id,
-        comentario: commentText,
-        nota: rating,
-      },
-    ]);
+    let error = null;
+
+    if (commentExisting) {
+      ({ error } = await supabase
+        .from("avaliacoes")
+        .update({ comentario: commentText, nota: rating })
+        .eq("id", commentExisting.id));
+    } else {
+      ({ error } = await supabase.from("avaliacoes").insert([
+        {
+          ponto_turistico_id: place.id,
+          comentario: commentText,
+          nota: rating,
+          usuario_id: user.id,
+        },
+      ]));
+    }
 
     if (error) {
       console.error("Erro ao enviar comentário:", error);
     } else {
+      Alert.alert("Sucesso", "Comentário enviado!");
       setCommentText("");
       setRating(0);
       fetchComments();
     }
-
-    if (error) {
-      console.error("Erro ao enviar comentário:", error);
-    } else {
-      setCommentText("");
-      fetchComments(); // Atualiza lista
-    }
   };
+
+
+  const handleDeleteComment = () => {
+    Alert.alert(
+      "Apagar comentário",
+      "Tem certeza que deseja apagar seu comentário?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Apagar",
+          style: "destructive",
+          onPress: async () => {
+            const { error } = await supabase
+              .from("avaliacoes")
+              .delete()
+              .eq("id", commentExisting.id);
+
+            if (error) {
+              console.error("Erro ao apagar comentário", error);
+            } else {
+              Alert.alert("Comentário apagado.");
+              setCommentText("");
+              setRating(0);
+              fetchComments();
+            }
+          },
+        },
+      ]
+    );
+  };
+
 
   return (
     <ScrollView style={styles.container}>
@@ -103,8 +141,23 @@ const DetailsScreen = ({ route }) => {
             <Text style={styles.commentText}>{comment.comentario}</Text>
             <Text style={styles.commentMeta}>
               ⭐ {comment.nota} -{" "}
-              {new Date(comment.created_at).toLocaleDateString()}
+              {new Date(comment.data_criacao).toLocaleDateString()}
             </Text>
+            {comment.usuario_id === user?.id && (
+              <View style={{ flexDirection: "row", marginTop: 6, gap: 10 }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setCommentText(comment.comentario);
+                    setRating(comment.nota);
+                  }}
+                >
+                  <Text style={{ color: COLORS.primaryPurple }}>Editar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleDeleteComment}>
+                  <Text style={{ color: "red" }}>Apagar</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         ))
       )}

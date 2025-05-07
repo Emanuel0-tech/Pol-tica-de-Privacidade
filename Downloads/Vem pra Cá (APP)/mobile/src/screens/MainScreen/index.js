@@ -136,14 +136,15 @@ const MainScreen = ({ navigation }) => {
           />
           {filteredPlaces.map((place) => (
             <PlaceCard
-              key={place.id}
-              nome={place.nome}
-              descricao={place.descricao}
-              categoria={place.categoria}
-              location={place.cidade?.nome || "Local desconhecido"}
-              imageUrl={place.imagens_urls}
-              onPress={() => navigation.navigate("Detail", { place })}
-            />
+            key={place.id}
+            nome={place.nome}
+            descricao={place.descricao}
+            categoria={place.categoria}
+            location={place.cidade?.nome || "Local desconhecido"}
+            imagemUrl={place.imagens_urls}  // Aqui estamos passando a URL da imagem
+            onPress={() => navigation.navigate("Detail", { place })}
+          />
+          
           ))}
         </View>
       </ScrollView>
@@ -163,8 +164,8 @@ header: {
     marginTop: SIZES.small,
 },
 main: {
-    paddingBottom: 16,
-    padding: 5
+      padding: 5
+   
   },
   footer: {
     marginTop: 24,
